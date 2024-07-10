@@ -6,17 +6,10 @@ TagManager:
   tags:
   - top
   - bot
-  - player
   - right
   - left
-  - GunProjectile
-  - Weapon
-  - GunBody
-  - GunBarrel
-  - GunMuzzle
-  - GunClip
-  - GunSight
   - map
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -18,13 +18,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float MaxSpeed = 20f;
     [SerializeField] public float VelocityVsUp = 0;
     [SerializeField] Rigidbody2D carRigidbody2D;
-    [Header("Weapon")]
-    [SerializeField] public float RecoilDistance = 0.05f;
-    [SerializeField] public GameObject Gun;
-    [SerializeField] public bool IsPushedBack;
-    [SerializeField] public float time;
-    [SerializeField] public float recoilTime = 0.25f;
-    [SerializeField] public Transform FireBox;
     void Start()
     {
         carRigidbody2D = GetComponent<Rigidbody2D>();
@@ -93,53 +86,5 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-//Firing
 
-    // private void Fire()
-    // {
-    //     if (Input.GetKeyUp(KeyCode.Space) && !isRecoiling)
-    //     {
-    //         BulletSpawn();
-    //         if(IsPushedBack)
-    //         {
-    //             StartCoroutine(Recoil());
-    //         }
-    //     }
-    // }
-    // public void BulletSpawn()
-    // {
-    //     GameObject bullet = BulletSpawnner.Instance.GetBullet();
-    //     Debug.Log(bullet);
-    //     if(bullet != null)
-    //     {
-    //         bullet.transform.position = FireBox.position;
-    //         bullet.transform.rotation = gameObject.transform.rotation * Quaternion.Euler(0,0,90);
-    //         bullet.GetComponent<BulletFiring>().OnInit();
-    //     }
-    // }
-
-    // private IEnumerator Recoil()
-    // {
-
-    //     isRecoiling = true;
-    //     Vector3 startPosition = transform.position;
-    //     Vector3 endPosition = transform.position - transform.up * RecoilDistance;
-    //     float elapsedTime = 0;
-
-    //     while (elapsedTime < recoilTime)
-    //     {
-    //         transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime / recoilTime);
-    //         elapsedTime += Time.deltaTime;
-    //         yield return null;
-    //     }
-
-    //     transform.position = endPosition;
-    //     isRecoiling = false;
-    // }
-
-    // private void BecomeInvisible()
-    // {
-
-    // }
-    
 }

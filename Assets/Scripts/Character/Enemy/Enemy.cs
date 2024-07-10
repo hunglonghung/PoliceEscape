@@ -7,6 +7,17 @@ public class Enemy : MonoBehaviour
 {
     PlayerController playerController;
     [SerializeField] GameObject player;
+    public enum EnemyType
+    {
+        Car,
+        Van,
+        Truck,
+        Tank,
+        Planes
+    }
+    [SerializeField] public EnemyType enemyType;
+    [SerializeField] int hp = 100;
+    [SerializeField] bool isDead = false;
     Transform targetTransform;
     Vector3 targetPosition;
         // Awake is called when the script instance is being loaded.
@@ -18,22 +29,47 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        OnInit();
+        player = GameObject.FindWithTag("Player");
+        if (player != null)
+        {
+            targetTransform = player.transform;
+        }
     }
 
     // Update is called once per frame and is frame dependent
     void FixedUpdate()
     {
-        Vector2 inputVector = Vector2.zero;
-        FollowPlayer();
-        inputVector.x = TurnTowardTarget();
-        inputVector.y = 1.0f;
-        // Send the input to the car controller.
-        playerController.SetInputVector(inputVector);
+        if(!isDead)
+        {
+            Vector2 inputVector = Vector2.zero;
+            FollowPlayer();
+            inputVector.x = TurnTowardTarget();
+            inputVector.y = 1.0f;
+            // Send the input to the car controller.
+            playerController.SetInputVector(inputVector);
+        }
+        else
+        {
+            StartCoroutine(getEnemy());
+        }
+
+    }
+    public IEnumerator getEnemy()
+    {
+        yield return new WaitForSeconds(2f);
+        EnemyPooling.Instance.ReturnObject(gameObject,(EnemyPooling.EnemyType)(int)enemyType);
+        
+    }
+    void OnInit()
+    {
+        hp = 100;
+        isDead = false;
     }
     void FollowPlayer()
     {
         if (targetTransform == null)
-            targetTransform = player.transform;
+                targetTransform = player.transform;
         if (targetTransform != null)
             targetPosition = targetTransform.position;
     }
@@ -47,6 +83,17 @@ public class Enemy : MonoBehaviour
         float steerAmount = angleToTarget / 45.0f;
         steerAmount = Mathf.Clamp(steerAmount, -1.0f, 1.0f);
         return steerAmount;
+    }
+    private void OnTriggerEnter2D(Collider2D other) {
+        hp -= 10;
+        if (other.gameObject.tag == "Enemy")
+        {
+            hp -= 50;
+        }
+        if(hp <= 50)
+        {
+            isDead = true;
+        }
     }
 
 
