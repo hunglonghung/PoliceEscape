@@ -20,7 +20,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] bool isDead = false;
     Transform targetTransform;
     Vector3 targetPosition;
-        // Awake is called when the script instance is being loaded.
+    [SerializeField] GameObject SmokingEffects;
+    [SerializeField] GameObject BurningEffects;
+    [SerializeField] GameObject Explosion;
+    [SerializeField] SpriteRenderer CarSprite;
+    // Awake is called when the script instance is being loaded.
     void Awake()
     {
         playerController = GetComponent<PlayerController>();
@@ -51,13 +55,15 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            Vector2 inputVector = Vector2.zero;
+            playerController.SetInputVector(inputVector);
             StartCoroutine(getEnemy());
         }
 
     }
     public IEnumerator getEnemy()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
         EnemyPooling.Instance.ReturnObject(gameObject,(EnemyPooling.EnemyType)(int)enemyType);
         
     }
@@ -65,6 +71,10 @@ public class Enemy : MonoBehaviour
     {
         hp = 100;
         isDead = false;
+        Explosion.SetActive(false);
+        SmokingEffects.SetActive(false);
+        BurningEffects.SetActive(false);
+        CarSprite.color = new Color(255,255,255,255);
     }
     void FollowPlayer()
     {
@@ -84,16 +94,36 @@ public class Enemy : MonoBehaviour
         steerAmount = Mathf.Clamp(steerAmount, -1.0f, 1.0f);
         return steerAmount;
     }
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnCollisionEnter2D(Collision2D other) {
+        Debug.Log(other.gameObject.tag);
         hp -= 10;
         if (other.gameObject.tag == "Enemy")
         {
-            hp -= 50;
+            Debug.Log("-40");
+            hp -= 40;
         }
-        if(hp <= 50)
+        if(hp > 40 && hp <= 70)
         {
+            ShowSmokingEffects();
+        }
+        if(hp <= 40)
+        {
+            hp -= 40;
+            ShowDeathEffects();
             isDead = true;
         }
+    }
+    public void ShowSmokingEffects()
+    {
+        SmokingEffects.SetActive(true);
+    }
+    public void ShowDeathEffects()
+    {
+        Explosion.SetActive(true);
+        BurningEffects.SetActive(true);
+        SmokingEffects.SetActive(true);
+        CarSprite.color = Color.black;
+
     }
 
 
