@@ -8,7 +8,7 @@ public class EnemySpawnner : MonoBehaviour
     [SerializeField] private int poolSize = 5;
     private int spawnedBotNumber = 0;
     [SerializeField] private int targetNumber = 50;
-    [SerializeField] private List<GameObject> spawnedEnemies;
+    [SerializeField] public List<GameObject> SpawnedEnemies;
     private List<GameObject> enemyPools;
     public float spawnRadius = 40f;
     public float minDistance = 10f;
@@ -115,16 +115,16 @@ public class EnemySpawnner : MonoBehaviour
         if (enemy != null)
         {
             enemy.transform.position = GetValidPosition();
-            spawnedEnemies.Add(enemy);
+            SpawnedEnemies.Add(enemy);
             spawnedBotNumber++;
         }
     }
 
     private void RelocateDistantEnemies()
     {
-        foreach (GameObject enemy in spawnedEnemies)
+        foreach (GameObject enemy in SpawnedEnemies)
         {
-            if (enemy.activeInHierarchy && Vector3.Distance(player.transform.position, enemy.transform.position) > 100f)
+            if (enemy.activeInHierarchy && Vector3.Distance(player.transform.position, enemy.transform.position) > 100f && !enemy.GetComponent<Enemy>().IsDead)
             {
                 enemy.transform.position = player.transform.position + (Vector3)(UnityEngine.Random.insideUnitCircle.normalized * 50f);
             }

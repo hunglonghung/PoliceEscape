@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 public class Enemy : MonoBehaviour
 {
@@ -17,13 +18,16 @@ public class Enemy : MonoBehaviour
     }
     [SerializeField] public EnemyType enemyType;
     [SerializeField] int hp = 100;
-    [SerializeField] bool isDead = false;
+    [SerializeField] public bool IsDead = false;
     Transform targetTransform;
     Vector3 targetPosition;
     [SerializeField] GameObject SmokingEffects;
     [SerializeField] GameObject BurningEffects;
     [SerializeField] GameObject Explosion;
     [SerializeField] SpriteRenderer CarSprite;
+    [SerializeField] List<GameObject> otherCars;
+    [SerializeField] public float avoidanceDistance = 5f;
+    [SerializeField] public Vector3 VectorToTarget;
     // Awake is called when the script instance is being loaded.
     void Awake()
     {
@@ -34,6 +38,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         OnInit();
+        otherCars = EnemySpawnner.Instance.SpawnedEnemies;
         player = GameObject.FindWithTag("Player");
         if (player != null)
         {
@@ -44,10 +49,11 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame and is frame dependent
     void FixedUpdate()
     {
-        if(!isDead)
+        if(!IsDead)
         {
             Vector2 inputVector = Vector2.zero;
             FollowPlayer();
+            AvoidOtherCars();
             inputVector.x = TurnTowardTarget();
             inputVector.y = 1.0f;
             // Send the input to the car controller.
@@ -67,10 +73,25 @@ public class Enemy : MonoBehaviour
         EnemyPooling.Instance.ReturnObject(gameObject,(EnemyPooling.EnemyType)(int)enemyType);
         
     }
+    public void AvoidOtherCars()
+    {
+        foreach (var car in otherCars)
+        {
+            if (car == null || car == gameObject) continue; 
+            Vector3 diff = car.transform.position - transform.position;
+            float distance = diff.magnitude;
+            if (distance < avoidanceDistance)
+            {
+                VectorToTarget -= diff.normalized / distance; 
+            }
+        }
+        
+        VectorToTarget.Normalize();
+    }
     void OnInit()
     {
         hp = 100;
-        isDead = false;
+        IsDead = false;
         Explosion.SetActive(false);
         SmokingEffects.SetActive(false);
         BurningEffects.SetActive(false);
@@ -86,9 +107,9 @@ public class Enemy : MonoBehaviour
 
     float TurnTowardTarget()
     {
-        Vector2 vectorToTarget = targetPosition - transform.position;
-        vectorToTarget.Normalize();
-        float angleToTarget = Vector2.SignedAngle(transform.up, vectorToTarget);
+        VectorToTarget = targetPosition - transform.position;
+        VectorToTarget.Normalize();
+        float angleToTarget = Vector2.SignedAngle(transform.up, VectorToTarget);
         angleToTarget *= -1;
         float steerAmount = angleToTarget / 45.0f;
         steerAmount = Mathf.Clamp(steerAmount, -1.0f, 1.0f);
@@ -101,17 +122,17 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("-40");
             hp -= 40;
+            if(hp <= 0)
+            {
+                ShowDeathEffects();
+                IsDead = true;
+            }
         }
         if(hp > 40 && hp <= 70)
         {
             ShowSmokingEffects();
         }
-        if(hp <= 40)
-        {
-            hp -= 40;
-            ShowDeathEffects();
-            isDead = true;
-        }
+
     }
     public void ShowSmokingEffects()
     {

@@ -15,7 +15,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float AccelerationInput = 0;
     [SerializeField] public float SteeringInput = 0;
     [SerializeField] public float RotationAngle = 0;
-    [SerializeField] public float MaxSpeed = 20f;
+    [SerializeField] public float MaxSpeed = 30f;
+    [SerializeField] public float MinPossibleSpeed = 40f;
+    [SerializeField] public float MaxPossibleSpeed = 50f;
     [SerializeField] public float VelocityVsUp = 0;
     [SerializeField] Rigidbody2D carRigidbody2D;
     void Start()
@@ -26,10 +28,21 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        StartCoroutine(ChangeEnemySpeed());
         PlayerMovement();
         // Fire();
     }
-//Movement
+    //ChangeSpeed
+    public IEnumerator ChangeEnemySpeed()
+    {
+        yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 10f));
+
+        if (gameObject.tag == "Enemy")
+        {
+            MaxSpeed = UnityEngine.Random.Range(MinPossibleSpeed, MaxPossibleSpeed);
+        }
+    }
+    //Movement
     private void PlayerMovement()
     {
        ApplyEngineForce();

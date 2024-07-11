@@ -116,7 +116,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 34.2, y: 0, z: 0}
-  m_LocalScale: {x: 0.9375, y: 1, z: 1}
+  m_LocalScale: {x: 0.6495221, y: 0.820449, z: 0.91161}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4270254803760497204}
@@ -139,12 +139,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 5256484759611411810, guid: 02149a58ff12a4445a53a83d03db6039, type: 3}
   enemyType: 0
-  hp: 100
-  isDead: 0
+  hp: 300
+  IsDead: 0
   SmokingEffects: {fileID: 6253423418630278076}
   BurningEffects: {fileID: 5293420168411521655}
   Explosion: {fileID: 3282184669815606803}
   CarSprite: {fileID: 761944101872281051}
+  otherCars: []
+  avoidanceDistance: 20
+  VectorToTarget: {x: 0, y: 0, z: 0}
 --- !u!50 &4213679436228263825
 Rigidbody2D:
   serializedVersion: 4
@@ -253,6 +256,8 @@ MonoBehaviour:
   SteeringInput: 0
   RotationAngle: 0
   MaxSpeed: 30
+  MinPossibleSpeed: 20
+  MaxPossibleSpeed: 40
   VelocityVsUp: 0
   carRigidbody2D: {fileID: 0}
 --- !u!1 &8420459065496738597

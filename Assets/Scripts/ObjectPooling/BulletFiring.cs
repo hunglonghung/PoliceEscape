@@ -6,22 +6,34 @@ using UnityEngine.SocialPlatforms;
 using UnityEngine.UIElements;
 public class BulletFiring : MonoBehaviour
 {
-    [SerializeField] private float distance = 100f;
-    [SerializeField] private float travelSpeed = 0.05f;
+    [SerializeField] private float travelSpeed = 0.05f;    
+    public enum BulletType
+    {
+        Plane,
+        Truck,
+        Tank
+    }
+    [SerializeField] public BulletType bulletType;
     private Vector3 startPosition;
+    [SerializeField] public float time = 0f ;
+    [SerializeField] public float bulletDuration = 5f;
+    [SerializeField] public Transform target;
     public void OnInit()
     {
         startPosition = transform.position;
+        time = 0f;
         
     }
     private void Update()
     {
-        Debug.Log(Vector3.Distance(startPosition, transform.position));
-        transform.Translate(travelSpeed,0,0);
-        if (Vector3.Distance(startPosition, transform.position) >= distance)
+        time += Time.deltaTime;
+        transform.position = Vector3.MoveTowards(startPosition,target.transform.position, travelSpeed);
+        if(time >= bulletDuration)
         {
-            Debug.Log("return");
-            BulletSpawnner.Instance.ReturnBullet(gameObject);
+            BulletPooling.Instance.ReturnObject(gameObject,(BulletPooling.BulletType)(int)bulletType);
         }
+    }
+    private void OnTriggerEnter2D(Collider2D other) {
+        BulletPooling.Instance.ReturnObject(gameObject,(BulletPooling.BulletType)(int)bulletType);
     }
 }

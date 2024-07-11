@@ -83,12 +83,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   enemyType: 0
-  hp: 100
-  isDead: 0
+  hp: 200
+  IsDead: 0
   SmokingEffects: {fileID: 7057402497007364126}
   BurningEffects: {fileID: 91525836001406335}
   Explosion: {fileID: 195092718452699689}
   CarSprite: {fileID: 3721679317890253819}
+  otherCars: []
+  avoidanceDistance: 20
+  VectorToTarget: {x: 0, y: 0, z: 0}
 --- !u!50 &287399560723541179
 Rigidbody2D:
   serializedVersion: 4
@@ -196,7 +199,9 @@ MonoBehaviour:
   AccelerationInput: 0
   SteeringInput: 0
   RotationAngle: 0
-  MaxSpeed: 30
+  MaxSpeed: 40
+  MinPossibleSpeed: 30
+  MaxPossibleSpeed: 50
   VelocityVsUp: 0
   carRigidbody2D: {fileID: 0}
 --- !u!1 &4263095392284126613

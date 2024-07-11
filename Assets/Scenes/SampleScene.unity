@@ -259,7 +259,7 @@ MonoBehaviour:
   player: {fileID: 363004391}
   poolSize: 5
   targetNumber: 50
-  spawnedEnemies: []
+  SpawnedEnemies: []
   spawnRadius: 40
   minDistance: 10
   planeSpawnTimer: 0
@@ -639,10 +639,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4960636099088723614, guid: 02149a58ff12a4445a53a83d03db6039, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: d38af3a25fbb4400991959773d3bb440, type: 2}
+    - target: {fileID: 2640053098061888780, guid: 02149a58ff12a4445a53a83d03db6039, type: 3}
+      propertyPath: health
+      value: 10000
+      objectReference: {fileID: 0}
     - target: {fileID: 5256484759611411810, guid: 02149a58ff12a4445a53a83d03db6039, type: 3}
       propertyPath: m_Name
       value: Player 1
@@ -687,14 +687,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6977353675082597590, guid: 02149a58ff12a4445a53a83d03db6039, type: 3}
-      propertyPath: MaxSpeed
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 8139650444829063812, guid: 02149a58ff12a4445a53a83d03db6039, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: d38af3a25fbb4400991959773d3bb440, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -827,6 +819,55 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -251.84373, y: -147.89098, z: 0.059245665}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1218790765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1218790767}
+  - component: {fileID: 1218790766}
+  m_Layer: 0
+  m_Name: BulletSpawnner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1218790766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218790765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fbcac85d515c4a9fb1a970a4f923fa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolSize: 5
+  bulletPrefabs:
+  - {fileID: 7228309944448269405, guid: dad100e6c61d9447d8de73af54ac827b, type: 3}
+  - {fileID: 7419124595287946431, guid: 7038946964a764317a951b3b16722fd6, type: 3}
+  - {fileID: 1017903611129401291, guid: 4a08d04f2bbe34fa48170d9607279b7a, type: 3}
+--- !u!4 &1218790767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218790765}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 47.63213, y: 0.15670867, z: -0.19687931}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1252,3 +1293,4 @@ SceneRoots:
   - {fileID: 1157097586}
   - {fileID: 376840635}
   - {fileID: 129165277}
+  - {fileID: 1218790767}
